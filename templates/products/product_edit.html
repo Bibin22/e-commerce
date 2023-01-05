@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="main">
+    <section class="signup">
+        <div class="container">
+            <div class="signup-content">
+                <form enctype="multipart/form-data" class="form" role="form" action="" method="post"> {% csrf_token %}
+                    <header align="center"
+                            style="color:#ffa238;"
+                            class="h2 text-uppercase font-weight-bold">Edit Product
+                    </header>
+                    <hr>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group required">
+                                <label class='control-label'>Product Name</label>
+                                {{ form.product_name}}
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group required">
+                                <label class='control-label'>Product Price</label>
+                                {{ form.price}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="form-group required">
+                                <label class='control-label'>Strap Color</label>
+                                {{ form.strap_color }}
+                                <span style="color: red;">{{ form.strap_color.errors }}</span>
+                                <label class='control-label'>Enter Strap Color</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group required">
+                                <label class='control-label'>Status</label><br>
+                                {{ form.active_inactive }}
+                                <span style="color: red;">{{ form.active_inactive.errors }}</span>
+                                <label class='control-label'>Choose a Status</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group required">
+                                <label class='control-label'>Product Image</label>
+                                {{ form.image }}
+                                <span style="color: red;">{{ form.username.errors }}</span>
+                                <label class='control-label'>Insert Image</label>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group required">
+                                <label class='control-label'>Highlights</label>
+                                {{ form.highlight }}
+                                <span style="color: red;">{{ form.highlight.errors }}</span>
+                                <label class='control-label'>Enter Product High Lights</label>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="col-sm-12 text-right">
+                        <button type="submit" style="background-color:#ffa238;color:white;margin-left:20px;"
+                                class="btn ink-reaction">Submit</button>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+</div>
+<div class="mt-5">
+
+</div>
+{% endblock %}

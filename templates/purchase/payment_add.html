@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} RazorPay {% endblock %}
+{% block content %}
+
+
+    <div class="container" style="width: 40%; border:1px solid black;border-radius: 5px; padding: 30px;">
+        <form enctype="multipart/form-data" role="form" method="post" id="formUpload">{% csrf_token %}
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group required">
+                        <label class='control-label'>Name</label>
+                        {{ form.name }}
+                        {{ form.name.errors }}
+                        <small class="form-text text-muted">Enter Name</small>
+                    </div>
+                </div>
+            </div>
+             <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group required">
+                        <label class='control-label'>Amount</label>
+                        {{ form.amount }}
+                        {{ form.amount.errors }}
+                        <small class="form-text text-muted">Enter Amount</small>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                   <button type="submit" class="btn btn-primary" style="margin-left:43%">Pay</button>
+                </div>
+            </div>
+        </form>
+        <br/>
+
+        {% if payment %}
+            <form action="{% url 'payment-status' pk %}" method="POST">
+                {% csrf_token %}
+                <script
+                        src="https://checkout.razorpay.com/v1/checkout.js"
+                        data-key="rzp_test_eSFDI8B2mj7DFR"
+                        data-amount="{{ payment.amount }}"
+                        data-currency="{{ payment.currency }}"
+                        data-order_id="{{ payment.id }}"
+                        data-buttontext="Pay with Razorpay"
+                        data-name="Purchase on your wish"
+                        data-description="Have a Cold Coffee that will make your mood fresh!"
+                        data-image="https://example.com/your_logo.jpg"
+                        data-prefill.name="{{ payment.name }}"
+                        data-prefill.email="you@example.com"
+                        data-theme.color="#FFF"
+                ></script>
+                <input type="hidden" custom="Hidden Element" name="hidden">
+            </form>
+        {% endif %}
+    </div>
+{% endblock %}

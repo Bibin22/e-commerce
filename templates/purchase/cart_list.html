@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="page-wrapper">
+    <div class="cart shopping">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2">
+                    <div class="block">
+                        <div class="product-list">
+                            <form method="post">
+                                {% if cart_items %}
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th class="">Item Name</th>
+                                        <th class="">Price</th>
+                                        <th class="">Quantity</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for data in cart_items %}
+                                    <tr class="r{{forloop.counter}}">
+                                        <td class="">
+                                            <div class="product-info">
+                                                {% if data.product %}
+                                                <img width="80" src="{{data.product.image.url}}" alt="image"/>
+                                                <a href="#!">{{data.product.name}}</a>
+                                                {% else %}
+                                                <a href="#!" style="color:#ffa238">Product no longer available</a>
+                                                {% endif %}
+                                            </div>
+                                        </td>
+
+                                        <td class="">{{data.amount}}</td>
+
+                                        <td class="">
+                                            <div class="single-product-details">
+                                                {{data.quantity}}
+                                                {% if data.product %}
+                                                <a href="{% url 'cart_plus' data.cart_id %}" class="btn btn-sm"
+                                                   style="background-color:#ffa238;color:white;">+</a>
+                                                <a href="{% url 'cart_minus' data.cart_id %}" class="btn btn-sm"
+                                                   style="background-color:#ffa238;color:white;">-</a>
+
+                                                {% endif %}
+                                            </div>
+
+                                        </td>
+
+                                        <td class="">
+                                            <input type="text" id="cart{{forloop.counter}}" hidden
+                                                   value="{{data.cart_id}}">
+                                             <a href="{% url 'payment_add' data.cart_id %}" class="btn btn-sm"
+                                                   style="background-color:#ffa238;color:white;">Buy</a>
+                                            <a href="{% url 'remove_from' data.cart_id %}" class="btn btn-sm"
+                                               style="background-color:#ffa238;color:white;">Remove</a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                                {% else %}
+                                <h3 style="text-align:center"><i
+                                        class="tf-ion-android-cart"></i>&emsp;Your Cart is Empty</h3>
+                                {% endif %}
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2">
+                    <div align="right">
+                        <p style="color:#ffa238">total : {{total_amount}}</p>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

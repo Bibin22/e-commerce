@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<section class="products section">
+    <div class="container">
+        <div class="row">
+
+            <div class="col-md-12">
+                <div class="row">
+                    {% for data in page_obj %}
+                    <div class="col-md-4">
+                        <div class="product-item">
+                            <div class="product-thumb">
+                                {% if data.image %}
+                                <img class="img-responsive" src="{{data.image.url}}" alt="product-img"/>
+                                {% endif %}
+                                <div class="preview-meta">
+                                    <ul>
+                                        <li>
+                                            <a href="{% url 'cart' data.product_id %}"
+                                               id="cartbtn{{forloop.counter}}"
+                                               onclick="button_disable({{forloop.counter}})"><i
+                                                    class="tf-ion-android-cart"></i></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="product-content">
+                                <h4><a href="product-detail.html">{{data.product_name}}</a></h4>
+                                <p class="price offer_price"> Rs. {{data.price}} <s class="default_price"></s></p>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12 nopadding">
+        <div class="pagination-box clearfix">
+            {% if page_obj.has_other_pages %}
+            <!-- Pagination -->
+            <nav class="my-3 container">
+                <ul class="pagination pg-grey justify-content-center">
+                    {% if page_obj.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link"
+                           href="?{% if query %}q={{query}}&{% endif %}page={{ page_obj.previous_page_number }}">&laquo;
+                            Previous</a>
+                    </li>
+                    {% endif %}
+
+                    {% for i in page_obj.paginator.page_range %}
+                    {% if page_obj.number == i %}
+                    <li class="page-item active"><a class="page-link">{{ i }}</a></li>
+                    {% else %}
+                    <li class="page-item"><a class="page-link"
+                                             href="?{% if query %}q={{query}}&{% endif %}page={{ i }}">{{ i }}</a></li>
+                    {% endif %}
+                    {% endfor %}
+
+                    {% if page_obj.has_next %}
+                    <li class="page-item">
+                        <a class="page-link"
+                           href="?{% if query %}q={{query}}&{% endif %}page={{ page_obj.next_page_number }}">Next</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link"
+                           href="?{% if query %}q={{query}}&{% endif %}page={{ page_obj.paginator.num_pages }}">Last
+                            &raquo;</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </nav>
+            {% endif %}
+        </div>
+    </div>
+        </div>
+    </div>
+
+</section>
+<script>
+function button_disable(id) {
+        $("#cartbtn"+id).remove();
+        return true;
+    }
+</script>
+
+
+<script>
+$('.cartbtn').on('click', function(e) {
+    e.preventDefault();
+    $(this).off("click").attr('href', "javascript: void(0);");
+});
+</script>
+
+{% endblock %}
